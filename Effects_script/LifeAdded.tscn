@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Effects_script/Splat.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Stage UI/Health_sprites/Life_added-01.png" type="Texture" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "FadeAway"
+length = 3.0
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 432, -0.25, 0, 0.25, 0, 432, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 3 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 16, -0.25, 0, 0.25, 0, 304, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 3 )
+}
+
+[node name="LifeAdded" type="Sprite"]
+position = Vector2( 432, 304 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/FadeAway = SubResource( 1 )

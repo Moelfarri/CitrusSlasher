@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://2DTextures/Bomb2D.gd" type="Script" id=1]
+[ext_resource path="res://3DFruit/Godot3DObjects/Bomb3D.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Sounds/Bomb-Fuse.wav" type="AudioStream" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 15.7152
+
+[sub_resource type="World" id=3]
+
+[node name="Bomb2D" type="RigidBody2D"]
+gravity_scale = 3.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="BombArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BombArea2D"]
+shape = SubResource( 2 )
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 512, 288 )
+own_world = true
+world = SubResource( 3 )
+transparent_bg = true
+
+[node name="Bomb3D" parent="Viewport" instance=ExtResource( 2 )]
+
+[node name="BombFuseSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -5.0
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+[connection signal="body_entered" from="BombArea2D" to="." method="_on_BombArea2D_body_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Sprites/Stage UI/Health_sprites/1 health-01.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Stage UI/Health_sprites/lost three oranges-01-01-01-01.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Stage UI/Health_sprites/2 health-01-01.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Stage UI/Health_sprites/3 health-01.png" type="Texture" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "Game Over",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "3 Lifes",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "1 Life",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": false,
+"name": "2 Lifes",
+"speed": 0.0
+} ]
+
+[node name="Lives" type="AnimatedSprite"]
+scale = Vector2( 0.15, 0.15 )
+frames = SubResource( 1 )
+animation = "3 Lifes"
