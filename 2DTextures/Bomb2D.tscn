@@ -13,6 +13,7 @@ radius = 15.7152
 [sub_resource type="World" id=3]
 
 [node name="Bomb2D" type="RigidBody2D"]
+z_index = 1
 gravity_scale = 3.0
 script = ExtResource( 1 )
 __meta__ = {

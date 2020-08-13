@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Sword.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Effects_script/Lives.tscn" type="PackedScene" id=2]
@@ -12,16 +12,12 @@
 [ext_resource path="res://Sprites/Background.png" type="Texture" id=10]
 [ext_resource path="res://Sounds/pirate/4xcombo.wav" type="AudioStream" id=11]
 [ext_resource path="res://Sounds/pirate/3xcombo.wav" type="AudioStream" id=12]
-[ext_resource path="res://Sounds/lostlife_sfx.wav" type="AudioStream" id=13]
 [ext_resource path="res://Sounds/Throwing_woosh.wav" type="AudioStream" id=14]
 [ext_resource path="res://Sounds/pirate/2xcombo.wav" type="AudioStream" id=15]
 [ext_resource path="res://Sounds/pirate/1xcombo.wav" type="AudioStream" id=16]
-[ext_resource path="res://Sounds/addlife_sfx.wav" type="AudioStream" id=17]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
-outline_size = 2
-outline_color = Color( 0.843137, 0.341176, 0.2, 1 )
 font_data = ExtResource( 9 )
 
 [node name="StageEndlessMode" type="Node2D"]
@@ -102,16 +98,6 @@ stream = ExtResource( 11 )
 volume_db = 15.0
 pitch_scale = 0.9
 
-[node name="LostLifeSoundEffect" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 13 )
-volume_db = -5.0
-
-[node name="AddLifeSoundEffect" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 17 )
-
-[node name="MetalClangSfx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 17 )
-
 [node name="ScoreCounter" type="Sprite" parent="."]
 position = Vector2( 480, 32 )
 scale = Vector2( 0.05, 0.05 )
@@ -125,8 +111,7 @@ margin_top = 10.8387
 margin_right = 450.0
 margin_bottom = 53.8387
 custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 1, 0.447059, 0, 1 )
-custom_colors/font_outline_modulate = Color( 0.843137, 0.341176, 0.2, 1 )
+custom_colors/font_color = Color( 0.960784, 0.6, 0.0117647, 1 )
 text = "0x"
 align = 2
 __meta__ = {
@@ -182,12 +167,7 @@ texture_normal = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="BombSpawnTimer" type="Timer" parent="."]
-wait_time = 8.0
-autostart = true
 [connection signal="pressed" from="PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="pressed" from="ResumeButton" to="." method="_on_ResumeButton_pressed"]
 [connection signal="pressed" from="MuteButton" to="." method="_on_MuteButton_pressed"]
 [connection signal="pressed" from="UnmuteButton" to="." method="_on_UnmuteButton_pressed"]
-[connection signal="timeout" from="BombSpawnTimer" to="." method="_on_BombSpawnTimer_timeout"]

@@ -12,6 +12,7 @@ radius = 5.91753
 [sub_resource type="World" id=3]
 
 [node name="Orange2D" type="RigidBody2D"]
+z_index = 1
 gravity_scale = 4.0
 script = ExtResource( 2 )
 __meta__ = {
