@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Effects_script/Splat.gd" type="Script" id=1]
+[ext_resource path="res://Effects_script/LifeLost.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Stage UI/Health_sprites/life_lost-01.png" type="Texture" id=2]
 [ext_resource path="res://Sounds/lostlife_sfx.wav" type="AudioStream" id=3]
 

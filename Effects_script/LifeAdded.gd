@@ -4,6 +4,7 @@ extends Sprite
 
 func _ready():
 	$AnimationPlayer.play("FadeAway")
+	$LifeAddedSfx.play()
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):

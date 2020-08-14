@@ -27,4 +27,6 @@ func _on_BombArea2D_body_entered(body):
 
 
 func _on_VisibilityNotifier2D_screen_exited():
+	if get_parent().name == "StageTimeMode":
+		get_parent().bomb_spawned -= 1
 	queue_free()

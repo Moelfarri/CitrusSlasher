@@ -5,7 +5,10 @@ var score = 0
 var highscore = 0
 var score_file = "user://highscore.data"
 
-
+#For TimeMode
+var is_time_mode = false
+var is_time_out = false
+var grade = "F"
 
 
 

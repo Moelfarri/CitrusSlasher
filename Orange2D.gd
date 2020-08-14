@@ -35,18 +35,22 @@ func _process(delta):
 		var random_negative_angle = -random_generator.randi_range(0,45)
 		orange_slice.get_node("Viewport/OrangeSliceTexture3D/OrangeSlice3D").set_rotation_degrees(Vector3(0,random_negative_angle,0))
 		
-		if get_parent().name == "TutorialScreen":
-			orange_slice.get_node("RigidBody2D/OrangeLeftSlice").set_scale(Vector2(2,2))
-			orange_slice.get_node("RigidBody2D2/OrangeRightSlice").set_scale(Vector2(2,2))
 			
 		#Add instance of sliced orange in the parent scene
 		get_parent().add_child(orange_slice)
 		get_parent().add_child(splat)
 		
+		#level selection logic
+		if get_parent().name == "LevelSelectionScreen":
+			orange_slice.name = name
+			orange_slice.get_node("RigidBody2D").get_node("CollisionShape2D").set_deferred("disabled", false)
+		
+		
 		#score management
-		if not get_parent().name == "TutorialScreen":
+		if not get_parent().name == "LevelSelectionScreen":
 			Global.increment_score()
 			Combo.oranges_sliced_counter += 1
+		
 		
 		#remove the "whole" orange scene as it is sliced now"
 		queue_free()
@@ -68,14 +72,14 @@ func _on_OrangeArea_body_entered(body):
 
 #called when orange exits the screen, meaning also in the event of it being cut.
 func _on_VisibilityNotifier2D_screen_exited():
-	if get_parent().name == "StageEndlessMode":
+	if not get_parent().name == "LevelSelectionScreen":
 		get_parent().oranges_spawned -= 1
 		if not is_orange_sliced:
-			get_parent().remove_life()
+			get_parent().is_orange_not_sliced = true
 			return
 		queue_free()
 		
-	elif get_parent().name == "TutorialScreen":
+	elif get_parent().name == "LevelSelectionScreen":
 		set_global_position(Vector2(255, 150))
 		set_linear_velocity(Vector2(0,0))
 		$CollisionShape2D2.set_deferred("disabled", false)

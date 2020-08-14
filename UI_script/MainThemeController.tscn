@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sounds/Pirate1_Theme1.wav" type="AudioStream" id=1]
+[ext_resource path="res://UI_script/MainThemeController.gd" type="Script" id=2]
+
+[node name="MainThemeController" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CitrusSlasherMainTheme" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 1 )
+volume_db = 5.0
+[connection signal="finished" from="CitrusSlasherMainTheme" to="." method="_on_CitrusSlasherMainTheme_finished"]

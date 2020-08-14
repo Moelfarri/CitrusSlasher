@@ -20,11 +20,12 @@ pause_mode = 2
 scale = Vector2( 5, 5 )
 frames = SubResource( 1 )
 animation = "Explode"
-frame = 2
+frame = 1
 playing = true
 script = ExtResource( 4 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
+pause_mode = 2
 margin_left = -832.0
 margin_top = -496.0
 margin_right = 520.0

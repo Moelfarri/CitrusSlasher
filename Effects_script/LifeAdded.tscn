@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Effects_script/Splat.gd" type="Script" id=1]
+[ext_resource path="res://Effects_script/LifeAdded.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Stage UI/Health_sprites/Life_added-01.png" type="Texture" id=2]
 [ext_resource path="res://Sounds/addlife_sfx.wav" type="AudioStream" id=3]
 
@@ -29,7 +29,7 @@ tracks/1/keys = {
 }
 
 [node name="LifeAdded" type="Sprite"]
-position = Vector2( 432, 304 )
+position = Vector2( 432, 16 )
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 2 )
 script = ExtResource( 1 )

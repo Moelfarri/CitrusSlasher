@@ -31,13 +31,14 @@ var lives = 3
 #Bomb
 var is_bomb_sliced = false
 var bomb_sliced_position = Vector2()
+var bomb_spawned = 0
 
 #Timer
 var spawn_timer = 0
 var timer_threshold = 600
 
-
-
+#spawn probability
+var probability = 97.5
 
 var random_generator = RandomNumberGenerator.new()
 enum SPAWNER{FAR_LEFT, LEFT,  MIDDLE, FAR_RIGHT, RIGHT}
@@ -45,6 +46,7 @@ enum SPAWNER{FAR_LEFT, LEFT,  MIDDLE, FAR_RIGHT, RIGHT}
 
 
 func _ready():
+	Global.is_time_mode = true
 	OS.low_processor_usage_mode = true
 	random_generator.randomize()
 	
@@ -54,10 +56,25 @@ func _ready():
 		$UnmuteButton.visible = true
 
 
-func _process(delta):
-	#Score display
-	$ScoreCounterText.text = str(Global.score) + "x"
+func _process(_delta):
+
+	#TimerMode Display:
+	if $Timer.get_time_left() < 10:
+		$TimerDisplay.text = "0:0"+ str(int($Timer.get_time_left()))
+	else:
+		$TimerDisplay.text = "0:"+ str(int($Timer.get_time_left()))
 	
+	if $Timer.get_time_left() < 50:
+		probability = 95
+	elif $Timer.get_time_left() < 40:
+		probability = 92.5
+	elif $Timer.get_time_left() < 30:
+		probability = 90
+	elif $Timer.get_time_left() < 20:
+		probability = 85
+	elif $Timer.get_time_left() < 10:
+		probability = 75
+
 	
 	#Win/Lose Conditions
 	if is_orange_not_sliced:
@@ -73,11 +90,13 @@ func _process(delta):
 	if oranges_spawned != orange_threshold and not orange_threshold == 0:
 		var spawn_probability = random_generator.randf_range(1,100)
 		#2.5% change of spawning a bomb instead 
-		if spawn_probability <= 97.5:
+		if spawn_probability <= probability:
 			randomly_spawn_and_project_orange()
 			oranges_spawned += 1
 		else:
-			randomly_spawn_and_project_bomb()
+			if bomb_spawned != 5:
+				randomly_spawn_and_project_bomb()
+				bomb_spawned += 1
 	
 	
 	#COMBO GRAPHICS AND SOUNDS
@@ -230,11 +249,11 @@ func orange_spawn_timer():
 			timer_threshold = 150
 		else:
 			var threshold_probability = random_generator.randf_range(1,100)
-			if threshold_probability <= 50:
+			if threshold_probability <= 30:
 				set_orange_spawn_threshold(1)
-			elif threshold_probability > 50 and threshold_probability <= 90:
+			elif threshold_probability > 30 and threshold_probability <= 80:
 				set_orange_spawn_threshold(2)
-			elif threshold_probability > 90 and threshold_probability <= 97.5:
+			elif threshold_probability > 80 and threshold_probability <= 95:
 				set_orange_spawn_threshold(3)
 			else:
 				set_orange_spawn_threshold(4)
@@ -252,7 +271,7 @@ func set_orange_spawn_threshold(threshold):
 
 ###############BUTTONS##################
 func _on_PauseButton_pressed():
-	OS.low_processor_usage_mode = false #stops glitching in android
+	OS.low_processor_usage_mode = false  #stops glitching in android
 	$PauseButton.visible = false
 	$ResumeButton.visible = true
 	var pause_dashboard = PAUSE_DASHBOARD.instance()
@@ -266,7 +285,6 @@ func _on_ResumeButton_pressed():
 	$ResumeButton.visible = false
 	get_node("PauseDashboard").queue_free()
 	get_tree().paused = false
-
 
 
 func _on_MuteButton_pressed():
@@ -295,7 +313,7 @@ func  randomly_spawn_and_project_bomb():
 			bomb.apply_central_impulse(Vector2(100,-400))
 		SPAWNER.MIDDLE:
 			bomb.position = $Spawners/LeftSpawner.position
-			bomb.apply_central_impulse(Vector2(0,-200))
+			bomb.apply_central_impulse(Vector2(0,-300))
 		SPAWNER.RIGHT:
 			bomb.position = $Spawners/RightSpawner.position
 			bomb.apply_central_impulse(Vector2(-100,-400))
@@ -314,8 +332,10 @@ func _on_bomb_sliced(given_position):
 ###############GAME OVER MANAGEMENT##################
 func game_over():
 	if lives <= 0:
-		get_tree().change_scene("res://UI_script/GameOverScreen.tscn")
+		Global.score = 0
+		get_tree().change_scene("res://UI_script/GameOverScreenTimeMode.tscn")
 	elif is_bomb_sliced:
+		Global.score = 0
 		var explosion = EXPLOSION.instance()
 		explosion.position = bomb_sliced_position
 		explosion.set_z_index(2)
@@ -325,5 +345,28 @@ func game_over():
 		return
 
 
+###############GRADING MANAGEMENT##################
+func performance_manager():
+	if Global.is_time_out and lives == 3:
+		Global.grade = "A+"
+	elif Global.is_time_out and lives != 3:
+		Global.grade = "B"
+	elif int($Timer.get_time_left()) <= 30 and int($Timer.get_time_left()) >= 1 and lives == 3:
+		Global.grade = "C"
+	elif int($Timer.get_time_left()) <= 30 and lives != 3:
+		Global.grade = "D"
+	elif int($Timer.get_time_left()) <= 40 and int($Timer.get_time_left()) > 30:
+		Global.grade = "E"
+	elif  int($Timer.get_time_left()) <= 59 and int($Timer.get_time_left()) >= 40:
+		Global.grade = "F"
+	else:
+		return
 
+
+
+
+func _on_Timer_timeout():
+	Global.is_time_out = true
+	performance_manager()
+	get_tree().change_scene("res://UI_script/GameOverScreenTimeMode.tscn")
 

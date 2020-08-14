@@ -1,14 +1,16 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://UI_script/GameOverScreen.gd" type="Script" id=1]
+[ext_resource path="res://UI_script/GameOverScreenTimeMode.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/GameOver UI/returnButton-01.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/GameOver UI/gameover_text-01.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Background.png" type="Texture" id=4]
 [ext_resource path="res://Font/Pirate Kids.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://Sprites/GameOver UI/gameover screen-01-01.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/GameOver UI/gameover screen_TimeMode-01.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/GameOver UI/time_out-01.png" type="Texture" id=7]
+[ext_resource path="res://Sounds/TimeOutBellSfx.wav" type="AudioStream" id=8]
 
 [sub_resource type="DynamicFont" id=1]
-size = 84
+size = 106
 font_data = ExtResource( 5 )
 
 [sub_resource type="Animation" id=2]
@@ -86,6 +88,7 @@ __meta__ = {
 }
 
 [node name="GameOverText" type="Sprite" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 264, 32 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 3 )
@@ -93,9 +96,16 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Dashboard" type="Sprite" parent="."]
+[node name="TimeOutText" type="Sprite" parent="."]
 visible = false
-position = Vector2( 256, 164 )
+position = Vector2( 382.089, 88.3907 )
+rotation = 0.523599
+scale = Vector2( 0.25, 0.25 )
+z_index = 1
+texture = ExtResource( 7 )
+
+[node name="Dashboard" type="Sprite" parent="."]
+position = Vector2( 256, -104 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 6 )
 __meta__ = {
@@ -117,42 +127,15 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="Score" type="Label" parent="Dashboard"]
-margin_left = -384.0
-margin_top = -96.0
-margin_right = 66.0
-margin_bottom = 16.0
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.647059, 0.356863, 0.0627451, 1 )
-text = "0x"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HighScoreTitle" type="Label" parent="Dashboard"]
-margin_left = -256.0
-margin_top = 48.0
-margin_right = 194.0
-margin_bottom = 160.0
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.647059, 0.356863, 0.0627451, 1 )
-text = "HIGHSCORE:"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HighScore" type="Label" parent="Dashboard"]
+[node name="Grade" type="Label" parent="Dashboard"]
 visible = false
-margin_left = -256.0
-margin_top = 144.0
-margin_right = 194.0
-margin_bottom = 256.0
+margin_left = -217.321
+margin_top = -34.2641
+margin_right = 232.679
+margin_bottom = 77.7359
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.647059, 0.356863, 0.0627451, 1 )
-text = "0x"
-align = 2
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -160,8 +143,7 @@ __meta__ = {
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/FadeIn = SubResource( 2 )
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.08
-autostart = true
+[node name="TimeOutBellSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
 [connection signal="pressed" from="Dashboard/ReturnButton" to="." method="_on_ReturnButton_pressed"]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

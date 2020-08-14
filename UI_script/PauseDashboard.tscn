@@ -3,6 +3,7 @@
 [ext_resource path="res://Sprites/Stage UI/pause dashboard-01.png" type="Texture" id=1]
 
 [node name="PauseDashboard" type="Sprite"]
+pause_mode = 2
 position = Vector2( 256, 164 )
 scale = Vector2( 0.25, 0.25 )
 z_index = 2

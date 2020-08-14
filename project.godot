@@ -29,6 +29,7 @@ config/icon="res://icon.png"
 
 Global="*res://Source_script/Global.gd"
 Combo="*res://Effects_script/Combo.gd"
+MainThemeController="*res://UI_script/MainThemeController.tscn"
 
 [display]
 
